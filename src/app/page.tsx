@@ -13,6 +13,13 @@ const ServicesSection = dynamic(() => import("@/components/ServicesSection"), { 
 const ContactSection = dynamic(() => import("@/components/ContactSection"), { ssr: false });
 const AboutSection = dynamic(() => import("@/components/AboutSection"), { ssr: false });
 import { useState, useRef, useCallback } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
+}
 
 const greatVibes = Great_Vibes({ weight: "400", subsets: ["latin"] });
 const montserrat = Montserrat({ weight: ["500", "700"], subsets: ["latin"] });
@@ -188,7 +195,44 @@ function KrakenOverlay({ onDone }: { onDone: () => void }) {
 }
 
 export default function Home() {
+  const containerRef = useRef<HTMLDivElement>(null);
   const konamiActive = useKonami();
+  
+  useGSAP(() => {
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) return;
+
+    // Timeline for cinematic transition between Hero and About
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#about",
+        start: "top bottom", // Starts when top of about enters bottom of screen
+        end: "top top",      // Ends when top of about hits top of screen
+        scrub: true,
+      }
+    });
+
+    // 1. Fade out the typography faster
+    tl.to(".hero-typography", { opacity: 0, duration: 0.3 }, 0);
+    
+    // 2. Scale down and fade out the hero artwork
+    tl.to(".hero-bg", { opacity: 0, scale: 0.95, duration: 1, ease: "power1.inOut" }, 0);
+    
+    // 3. Fade the About section background from transparent to the #050505 dark charcoal
+    tl.fromTo(".about-bg-element", 
+      { backgroundColor: "rgba(5,5,5,0)" }, 
+      { backgroundColor: "rgba(5,5,5,1)", duration: 1, ease: "none" }, 
+      0
+    );
+
+    // 4. Stagger reveal the elements inside About section
+    tl.fromTo(".about-stagger", 
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.6, stagger: 0.08, ease: "power2.out" },
+      0.3
+    );
+
+  }, { scope: containerRef });
 
   // Kraken easter egg state
   const [krakenActive, setKrakenActive] = useState(false);
@@ -218,7 +262,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-black">
+    <div ref={containerRef} className="relative min-h-screen bg-black">
       {/* ── Konami Easter Egg overlay ── */}
       {konamiActive && <KonamiOverlay />}
 
@@ -226,7 +270,7 @@ export default function Home() {
       {krakenActive && <KrakenOverlay onDone={() => setKrakenActive(false)} />}
 
       {/* ── Hero Section ── */}
-      <div className="relative min-h-screen w-full overflow-hidden">
+      <div className="sticky top-0 min-h-screen w-full overflow-hidden hero-bg">
         {/* ── Video background ── */}
         <video
           autoPlay
@@ -238,63 +282,43 @@ export default function Home() {
         />
 
         {/* ── Hero content ── */}
-        <main className="relative z-10 flex min-h-screen w-full">
+        <main className="relative z-10 flex flex-col md:flex-row min-h-screen w-full hero-typography">
 
           {/* ── LEFT COLUMN ── */}
-          <div className="w-1/2 relative h-screen">
+          <div className="w-full md:w-1/2 relative h-[45vh] md:h-screen">
             
             {/* Cinematic Camera Overlay (Left) */}
-            <div className="absolute top-32 left-12 md:left-16 font-mono text-[9px] text-white/20 tracking-[0.3em] flex flex-col gap-2 pointer-events-none select-none z-20">
+            <div className="hidden md:flex absolute top-32 left-12 md:left-16 font-mono text-[9px] text-white/20 tracking-[0.3em] flex-col gap-2 pointer-events-none select-none z-20">
               <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-red-500/50 animate-pulse" /> REC</span>
               <span>[00:00:24:12]</span>
             </div>
             
-            {/* Logo and surrounding text container */}
+            {/* Brand wrapper */}
             <div
-              className="absolute top-1/2 logo-reveal pointer-events-none"
-              style={{
-                left: "-5vw",
-                width: "clamp(15rem, 70vw, 75rem)",
-                height: "clamp(12rem, 55vw, 55rem)",
-              }}
+              className="absolute top-[75%] md:top-[64%] left-1/2 md:left-[4vw] -translate-x-1/2 md:translate-x-0 -translate-y-1/2 logo-reveal pointer-events-none flex flex-col items-center md:items-start w-full md:w-auto"
             >
-              {/* Glow overlay — only this div breathes in opacity (GPU-composited, zero repaint) */}
-              <div
-                aria-hidden="true"
-                style={{
-                  position: "absolute",
-                  inset: "-10%",
-                  background: "radial-gradient(ellipse at 35% 50%, rgba(100,200,255,0.18) 0%, rgba(255,255,255,0.10) 30%, transparent 70%)",
-                  animation: "logo-breathe 4.5s ease-in-out 2.5s infinite",
-                  pointerEvents: "none",
-                  zIndex: 2,
-                }}
-              />
+              {/* Logo + Tagline */}
+              <div className="flex w-fit flex-col items-center md:items-start text-center md:text-left">
+                <img
+                  src="/rude logo.png"
+                  alt="Rude"
+                  className="block h-auto w-[clamp(160px,50vw,280px)] md:w-[clamp(200px,26vw,380px)]"
+                />
 
-              <Image
-                src="/rude logo.png"
-                alt="Rude Logo"
-                fill
-                className="object-contain object-left"
-                priority
-                style={{ zIndex: 1 }}
-              />
-            </div>
-            
-            {/* Tagline Below Logo */}
-            <div 
-              className={`absolute top-[60%] left-[2vw] md:left-[5vw] lg:left-[7.5vw] text-white text-[12px] md:text-[18px] lg:text-[24px] leading-tight ${montserrat.className} font-medium z-20`}
-            >
-              i fix bad <span className="font-bold">footage.</span><br/>
-              Miracles cost <span className="font-bold">extra.</span>
+                <p className="mt-4 md:mt-6 text-[clamp(14px,3.5vw,18px)] md:text-[clamp(14px,1.2vw,20px)] leading-[1.15] text-white md:-translate-y-[8px]">
+                  i fix bad <strong>footage.</strong>
+                  <br />
+                  Miracles cost <strong>extra.</strong>
+                </p>
+              </div>
             </div>
           </div>
 
           {/* ── RIGHT COLUMN ── */}
-          <div className="flex flex-col justify-center items-end w-1/2 pr-8 md:pr-12 lg:pr-16 pl-6 text-right relative">
+          <div className="flex flex-col justify-end md:justify-center items-center md:items-end w-full md:w-1/2 px-6 md:pr-12 lg:pr-16 text-center md:text-right relative h-[55vh] md:h-auto pb-24 md:pb-0">
             
             {/* Cinematic Camera Overlay (Right) */}
-            <div className="absolute top-32 right-8 md:right-12 lg:right-16 font-mono text-[9px] text-white/20 tracking-[0.3em] flex flex-col items-end gap-2 pointer-events-none select-none">
+            <div className="hidden md:flex absolute top-32 right-8 md:right-12 lg:right-16 font-mono text-[9px] text-white/20 tracking-[0.3em] flex-col items-end gap-2 pointer-events-none select-none">
               <span>ISO 800</span>
               <span>5600K</span>
               <span>24 FPS</span>
@@ -320,7 +344,7 @@ export default function Home() {
               ]}
               interval={4000}
               className={`text-white leading-none ${playfair.className} italic tracking-tight whitespace-nowrap`}
-              style={{ fontSize: "clamp(1.8rem, 4.5vw, 5.5rem)" }}
+              style={{ fontSize: "clamp(2rem, 3.5vw, 4.5rem)" }}
             />
 
             {/* Tagline */}
@@ -333,12 +357,12 @@ export default function Home() {
             </p>
 
             {/* Action Buttons */}
-            <div className="flex items-center gap-6">
+            <div className="flex justify-center md:justify-end items-center gap-6 w-full mt-4 md:mt-0">
               <a href="#work" className="group flex items-center gap-3">
                 <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/60 group-hover:text-white transition-colors">
                   View Archive
                 </span>
-                <div className="w-8 h-[1px] bg-white/20 group-hover:bg-white group-hover:w-12 transition-all duration-300" />
+                <div className="w-8 h-[1px] bg-white/20 group-hover:bg-white group-hover:w-12 transition-all duration-300 hidden md:block" />
               </a>
               <span className="w-[1px] h-3 bg-white/20" />
               <a href="#contact" className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40 hover:text-white transition-colors">
@@ -365,9 +389,8 @@ export default function Home() {
         </main>
       </div>
 
-
       {/* ── About the Author Section ── */}
-      <div id="about">
+      <div id="about" className="relative z-10 w-full">
         <AboutSection />
       </div>
 

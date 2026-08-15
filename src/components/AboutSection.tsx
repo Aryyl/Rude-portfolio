@@ -1,17 +1,16 @@
 "use client";
 
 import { Great_Vibes } from "next/font/google";
-import ScrollReveal from "@/components/ScrollReveal";
 import Image from "next/image";
 
 const greatVibes = Great_Vibes({ weight: "400", subsets: ["latin"] });
 
 export default function AboutSection() {
   return (
-    <section className="relative bg-[#050505] text-white py-32 px-6 md:px-12 min-h-screen flex items-center justify-center overflow-hidden border-t border-white/5">
+    <section className="relative text-white py-32 px-6 md:px-12 min-h-screen flex items-center justify-center overflow-hidden about-bg-element" style={{ backgroundColor: 'transparent' }}>
       
       {/* Background Decorative Elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none about-stagger">
         {/* Huge background text */}
         <div 
           className={`absolute -left-[10%] top-[10%] text-[20vw] text-white/5 whitespace-nowrap leading-none select-none ${greatVibes.className}`}
@@ -35,12 +34,11 @@ export default function AboutSection() {
         
         {/* ── Left Column: Visual Placeholder ── */}
         <div className="w-full lg:w-5/12 flex flex-col">
-          <ScrollReveal direction="left" delay={0} className="h-full">
-            <div className="relative w-full aspect-[3/4] md:aspect-[4/5] bg-black/40 border border-white/10 rounded-lg overflow-hidden flex flex-col items-center justify-center group h-full">
+          <div className="relative w-full aspect-[3/4] md:aspect-[4/5] bg-black/40 border border-white/10 rounded-lg overflow-hidden flex flex-col items-center justify-center group h-full about-stagger">
               
               {/* Actual Image */}
               <Image 
-                src="/rude-photo-v2.png"
+                src="/rude photo.jpeg"
                 alt="Portrait of Rudrangshu Sonowal"
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 mix-blend-luminosity hover:mix-blend-normal"
@@ -56,28 +54,25 @@ export default function AboutSection() {
               <div className="absolute bottom-6 left-6 w-8 h-8 border-b border-l border-white/20" />
               <div className="absolute bottom-6 right-6 w-8 h-8 border-b border-r border-white/20" />
             </div>
-          </ScrollReveal>
-        </div>
+          </div>
 
         {/* ── Right Column: Editorial Content ── */}
         <div className="w-full lg:w-7/12 flex flex-col justify-center">
-          <ScrollReveal direction="right" delay={150}>
-            
-            <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center gap-3 mb-6 about-stagger">
               <div className="w-1.5 h-1.5 rounded-full bg-white/40" />
               <span className="font-mono text-xs uppercase tracking-[0.25em] text-white/40">
                 Behind the Lens
               </span>
             </div>
 
-            <h2 className="text-5xl md:text-7xl font-bold tracking-tighter text-white/90 leading-[1.05] mb-12">
+            <h2 className="text-5xl md:text-7xl font-bold tracking-tighter text-white/90 leading-[1.05] mb-12 about-stagger">
               The mind behind the <br />
               <span className={`text-[1.3em] font-normal text-transparent bg-clip-text bg-gradient-to-r from-white via-white/80 to-white/40 leading-none ${greatVibes.className}`}>
                 edits.
               </span>
             </h2>
 
-            <div className="flex flex-col space-y-8 text-lg font-light text-white/60 leading-relaxed max-w-2xl">
+            <div className="flex flex-col space-y-8 text-lg font-light text-white/60 leading-relaxed max-w-2xl about-stagger">
               <p>
                 <span className="float-left text-5xl md:text-6xl font-semibold text-white/90 leading-[0.8] pr-4 pt-2">I</span>
                 help brands, businesses, and creators transform ideas into compelling visual experiences through thoughtful editing and refined post-production. From luxury product films and commercial advertisements to documentaries, travel films, and social media content, I focus on creating visuals that feel <span className="italic text-white/90 font-normal">intentional, immersive, and memorable.</span>
@@ -89,7 +84,7 @@ export default function AboutSection() {
             </div>
 
             {/* ── Details Grid (Toolkit & Stats) ── */}
-            <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-12 pt-12 border-t border-white/10">
+            <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-12 pt-12 border-t border-white/10 about-stagger">
               
               {/* Arsenal */}
               <div>
@@ -121,17 +116,15 @@ export default function AboutSection() {
                     <span className="text-xs font-mono uppercase tracking-widest text-white/40">Years of<br/>Experience</span>
                   </div>
                   <div className="flex flex-col gap-1">
-                    <span className="text-4xl font-bold tracking-tighter text-white">20+</span>
+                    <span className="text-4xl font-bold tracking-tighter text-white">500+</span>
                     <span className="text-xs font-mono uppercase tracking-widest text-white/40">Projects<br/>Delivered</span>
                   </div>
                 </div>
               </div>
 
             </div>
-          </ScrollReveal>
+          </div>
         </div>
-
-      </div>
     </section>
   );
 }
