@@ -5,6 +5,10 @@
   --foreground: #171717;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -19,8 +23,177 @@
   }
 }
 
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+  display: flex;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ── Scroll float indicator ─────────────────────────── */
+@keyframes float {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+/* ── Hero logo reveal ──────────────────────────────── */
+/* Only animates opacity + transform — both are GPU-composited */
+@keyframes revealLogo {
+  0% {
+    opacity: 0;
+    transform: translateY(-50%) translateX(-5vw) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0) scale(1);
+  }
+}
+
+.logo-reveal {
+  opacity: 0;
+  /* Only the reveal — breathing is handled by the separate glow overlay div */
+  animation: revealLogo 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ── Logo breathing glow (overlay opacity — GPU-composited, zero repaint) ─ */
+/* The glow effect lives on a separate absolutely-positioned div whose opacity */
+/* is the only property changing — this is the cheapest possible animation.  */
+@keyframes logo-breathe {
+  0%, 100% { opacity: 0.04; }
+  50%       { opacity: 0.22; }
+}
+
+/* ── Scroll reveal ──────────────────────────────────── */
+/* No contain:paint — creates expensive compositor layers for invisible elements */
+.sr-visible {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* ── Fade-in + scale for tooltips / toasts ────────── */
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.85) translateY(4px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ── Ink stroke draw-in (SVG path animation) ─────────── */
+@keyframes inkDraw {
+  from { stroke-dashoffset: 1; }
+  to   { stroke-dashoffset: 0; }
+}
+
+.ink-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  pathLength: 1;
+  animation: inkDraw 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ── Service number ripple ───────────────────────────── */
+@keyframes num-ripple {
+  from { transform: scale(1); opacity: 0.5; }
+  to   { transform: scale(3.5); opacity: 0; }
+}
+
+.service-num {
+  position: relative;
+  display: inline-block;
+}
+
+.service-num::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.service-num:hover::after {
+  animation: num-ripple 0.7s ease-out forwards;
+}
+
+/* ── Konami / deep-ocean overlay ─────────────────────── */
+@keyframes deepOceanWash {
+  0%   { opacity: 0; }
+  15%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes fishSwim {
+  0%   { transform: translateX(-120px) translateY(0px) scaleX(1); opacity: 0; }
+  10%  { opacity: 1; }
+  45%  { transform: translateX(45vw) translateY(-30px) scaleX(1); opacity: 1; }
+  55%  { transform: translateX(55vw) translateY(-30px) scaleX(-1); opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateX(110vw) translateY(10px) scaleX(-1); opacity: 0; }
+}
+
+@keyframes konamiMsg {
+  0%   { opacity: 0; transform: translateY(20px); }
+  20%  { opacity: 1; transform: translateY(0); }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ── Kraken ink splatter ─────────────────────────────── */
+@keyframes krakenShake {
+  0%,100% { transform: translateX(0); }
+  15%     { transform: translateX(-8px) rotate(-1deg); }
+  30%     { transform: translateX(7px) rotate(1deg); }
+  45%     { transform: translateX(-6px) rotate(-0.5deg); }
+  60%     { transform: translateX(5px) rotate(0.5deg); }
+  75%     { transform: translateX(-3px); }
+}
+
+@keyframes inkSplat {
+  0%   { opacity: 0; transform: scale(0.2); }
+  40%  { opacity: 0.9; transform: scale(1.1); }
+  70%  { opacity: 0.7; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.4); }
+}
+
+/* ── Anchor pulse ────────────────────────────────────── */
+@keyframes anchorPulse {
+  0%, 100% { opacity: 0.15; transform: scale(1); }
+  50%       { opacity: 0.35; transform: scale(1.1); }
+}
+
+.anchor-secret {
+  animation: anchorPulse 3s ease-in-out infinite;
+}
+
+/* ── Toast notification ──────────────────────────────── */
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes toastOut {
+  from { opacity: 1; }
+  to   { opacity: 0; transform: translateY(-6px); }
+}
+
+/* ── Marquee Animation ───────────────────────────────────── */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
 }
