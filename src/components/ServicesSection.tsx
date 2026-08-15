@@ -116,36 +116,46 @@ export default function ServicesSection() {
       </div>
 
       {/* ── Main Layout ── */}
-      <div className="w-full max-w-7xl flex flex-col lg:flex-row gap-16 lg:gap-24 relative z-10">
+      <div className="w-full max-w-7xl flex flex-col lg:flex-row gap-8 lg:gap-24 relative z-10">
         
-        {/* LEFT: Typography List with original hover collages */}
-        <div className="w-full lg:w-[65%] flex flex-col relative" onMouseLeave={() => setActiveService(null)}>
+        {/* LEFT: Typography List */}
+        <div className="w-full lg:w-[65%] flex flex-col relative">
           {SERVICES.map((s, idx) => {
             const isActive = idx === activeService;
             return (
               <div 
                 key={idx}
-                className="relative cursor-pointer group py-2 md:py-3 flex items-center"
+                className="relative cursor-pointer group py-4 lg:py-3 flex flex-col justify-center border-b border-black/5 lg:border-none"
                 onMouseEnter={() => setActiveService(idx)}
+                onClick={() => setActiveService(isActive ? null : idx)}
               >
-                {/* Index Number */}
-                <span className="hidden md:block font-mono text-[10px] tracking-widest text-black/20 w-8 shrink-0">
-                  {String(idx + 1).padStart(2, '0')}
-                </span>
+                <div className="flex items-center w-full">
+                  {/* Index Number */}
+                  <span className="hidden md:block font-mono text-[10px] tracking-widest text-black/20 w-8 shrink-0">
+                    {String(idx + 1).padStart(2, '0')}
+                  </span>
 
-                {/* Service Text */}
-                <h2 
-                  className={`text-[clamp(1.5rem,4vw,3.5rem)] font-bold tracking-tighter transition-all duration-500 ease-out z-10 w-[85%] md:w-auto ${
-                    isActive ? "text-black scale-[1.02] origin-left" : "text-black/10 hover:text-black/30"
-                  }`}
-                  style={{ lineHeight: 0.95 }}
-                >
-                  {s.title}
-                </h2>
+                  {/* Service Text */}
+                  <h2 
+                    className={`text-[clamp(1.5rem,5vw,3.5rem)] font-bold tracking-tighter transition-all duration-500 ease-out z-10 w-full lg:w-auto pr-4 lg:pr-0 ${
+                      isActive ? "text-black lg:scale-[1.02] origin-left" : "text-black/40 lg:text-black/10 hover:text-black/60 lg:hover:text-black/30"
+                    }`}
+                    style={{ lineHeight: 0.95 }}
+                  >
+                    {s.title}
+                  </h2>
+                  
+                  {/* Mobile Caret Icon */}
+                  <div className="lg:hidden ml-auto flex items-center justify-center w-6 h-6 rounded-full bg-black/5 shrink-0 transition-transform duration-300" style={{ transform: isActive ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+                    <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
+                      <path d="M1 1L5 5L9 1" stroke="black" strokeOpacity="0.4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                </div>
                 
-                {/* Image/Video Collage Overlay for active item (Original Style) */}
+                {/* Image/Video Collage Overlay for active item (Desktop Style) */}
                 <div 
-                  className={`absolute right-0 lg:right-4 top-1/2 -translate-y-1/2 w-48 h-64 md:w-56 md:h-72 lg:w-60 lg:h-[20rem] bg-black/5 rounded-sm shadow-2xl transition-all duration-500 pointer-events-none z-20 ${
+                  className={`hidden lg:block absolute right-0 lg:right-4 top-1/2 -translate-y-1/2 w-48 h-64 md:w-56 md:h-72 lg:w-60 lg:h-[20rem] bg-black/5 rounded-sm shadow-2xl transition-all duration-500 pointer-events-none z-20 ${
                     isActive ? "opacity-100 translate-x-0 scale-100" : "opacity-0 translate-x-8 scale-95"
                   }`}
                 >
@@ -163,13 +173,49 @@ export default function ServicesSection() {
                       />
                   </div>
                 </div>
+
+                {/* Mobile Inline Details (Mobile/Tablet Style) */}
+                <div className={`lg:hidden overflow-hidden transition-all duration-500 ease-in-out ${isActive ? 'max-h-[800px] opacity-100 mt-6 mb-2' : 'max-h-0 opacity-0 mt-0 mb-0'}`}>
+                  <div className="w-full aspect-video mb-5 rounded-lg overflow-hidden bg-black/5 relative shadow-inner">
+                    <HoverVideo
+                      src={s.video}
+                      isActive={isActive}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  
+                  <h4 className="font-mono text-[10px] uppercase tracking-[0.25em] text-black/50 mb-2">
+                    {s.tag}
+                  </h4>
+                  
+                  <p className="text-sm text-black/60 leading-relaxed mb-5">
+                    {s.desc}
+                  </p>
+                  
+                  <div className="pl-3 border-l border-black/15 mb-6">
+                    <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-black/30 mb-1">
+                      My Approach
+                    </p>
+                    <p className="text-xs italic font-medium text-black/70">
+                      "{s.approach}"
+                    </p>
+                  </div>
+                  
+                  <a href="#contact" className="inline-flex items-center gap-2 text-[10px] font-bold text-black uppercase tracking-widest">
+                    Discuss Project
+                    <svg width="10" height="10" viewBox="0 0 14 14" fill="none">
+                      <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </a>
+                </div>
+
               </div>
             );
           })}
         </div>
 
-        {/* RIGHT: Detailed Information Panel to fill the space */}
-        <div className={`w-full lg:w-[35%] flex flex-col justify-center relative transition-opacity duration-500 ${active !== null ? 'opacity-100' : 'opacity-0'}`}>
+        {/* RIGHT: Detailed Information Panel to fill the space (Desktop Only) */}
+        <div className={`hidden lg:flex w-full lg:w-[35%] flex-col justify-center relative transition-opacity duration-500 ${active !== null ? 'opacity-100' : 'opacity-0'}`}>
           
           {active !== null && (
             <>
