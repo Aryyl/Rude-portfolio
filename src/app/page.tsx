@@ -313,14 +313,14 @@ export default function Home() {
             {/* Video Editor — cursive large title looping */}
             <TextLoop 
               items={[
-                "Video Editor", 
-                "Cinematic Filmmaker", 
-                "Visual Storyteller", 
-                "Creative Director"
+                <span key="1">Video <span className={`${montserrat.className} not-italic tracking-tighter font-medium`}>Editor</span></span>, 
+                <span key="2">Cinematic <span className={`${montserrat.className} not-italic tracking-tighter font-medium`}>Filmmaker</span></span>, 
+                <span key="3">Visual <span className={`${montserrat.className} not-italic tracking-tighter font-medium`}>Storyteller</span></span>, 
+                <span key="4">Creative <span className={`${montserrat.className} not-italic tracking-tighter font-medium`}>Director</span></span>
               ]}
               interval={4000}
-              className={`text-white leading-none ${playfair.className} italic tracking-tight`}
-              style={{ fontSize: "clamp(2.5rem, 6.5vw, 7.5rem)" }}
+              className={`text-white leading-none ${playfair.className} italic tracking-tight whitespace-nowrap`}
+              style={{ fontSize: "clamp(1.8rem, 4.5vw, 5.5rem)" }}
             />
 
             {/* Tagline */}

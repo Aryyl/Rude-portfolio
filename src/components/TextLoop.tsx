@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 
 interface TextLoopProps {
-  items: string[];
+  items: React.ReactNode[];
   interval?: number;
   className?: string;
   style?: React.CSSProperties;
