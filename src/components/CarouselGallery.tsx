@@ -16,7 +16,7 @@ export type Project = {
   year: string;
   type: "video" | "iframe" | "image";
   src: string;
-  poster: string;
+  poster?: string;
   description?: string;
   role?: string;
   isVertical?: boolean;
