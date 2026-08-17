@@ -1,9 +1,10 @@
 "use client";
 
-import { Great_Vibes } from "next/font/google";
+import { Great_Vibes, Montserrat } from "next/font/google";
 import ScrollReveal from "@/components/ScrollReveal";
 
 const greatVibes = Great_Vibes({ weight: "400", subsets: ["latin"] });
+const montserrat = Montserrat({ weight: ["500", "700"], subsets: ["latin"] });
 
 interface ContactSectionProps {
   onCopyrightClick?: () => void;
@@ -13,124 +14,115 @@ export default function ContactSection({ onCopyrightClick }: ContactSectionProps
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer id="contact" className="relative w-full bg-black text-white overflow-hidden pt-32 pb-8 border-t border-white/5">
+    <footer id="contact" className="relative w-full bg-[#0D0D0D] text-white overflow-hidden pt-24 pb-8">
       
-      {/* Subtle background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-white/[0.02] rounded-full blur-[120px] pointer-events-none" />
+      {/* GIF Background */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-30">
+        <img 
+          src="/contact-bg.gif" 
+          alt="Background animation" 
+          className="w-full h-full object-contain scale-[1.3] md:scale-125"
+        />
+      </div>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 flex flex-col min-h-[60vh] justify-between">
+      {/* Cinematic Background Elements */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        {/* Subtle noise texture */}
+        <div 
+          className="absolute inset-0 opacity-[0.04]" 
+          style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")', backgroundRepeat: 'repeat' }}
+        />
+        {/* Deep ambient glow removed for pitch black background */}
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 flex flex-col justify-between items-center text-center">
         
         {/* ── Main CTA Area ── */}
-        <div className="flex flex-col lg:flex-row justify-between gap-16 lg:gap-24 mb-24">
-          
-          {/* Left: Huge typography */}
-          <div className="flex flex-col flex-1">
-            <ScrollReveal direction="up" delay={0}>
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-1.5 h-1.5 rounded-full bg-white/40" />
-                <span className="font-mono text-xs uppercase tracking-[0.25em] text-white/40">
-                  Ready to start?
+        <div className="flex flex-col items-center w-full mb-16 mt-4">
+          <ScrollReveal direction="up" delay={0}>
+            <div className="flex items-center gap-4 mb-8 justify-center">
+              <div className="w-1.5 h-1.5 rounded-full bg-white/40 animate-pulse" />
+              <span className="font-mono text-xs md:text-sm uppercase tracking-[0.3em] text-white/50">
+                Ready to collaborate?
+              </span>
+              <div className="w-1.5 h-1.5 rounded-full bg-white/40 animate-pulse" />
+            </div>
+            
+            <h2 className={`${montserrat.className} text-[2.5rem] md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tighter leading-[0.95] mb-10 max-w-5xl mx-auto`}>
+              Let&apos;s create something
+              <br />
+              <span className={`${greatVibes.className} font-normal text-transparent bg-clip-text bg-gradient-to-r from-white via-white/80 to-white/40 text-[1.2em] tracking-normal block mt-2 lg:mt-4 pb-4`}>
+                extraordinary.
+              </span>
+            </h2>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 w-full mt-8">
+              <a 
+                href="mailto:rudrangshusonowal@gmail.com"
+                className="group relative flex items-center justify-center gap-4 px-8 py-5 md:py-6 bg-white text-black rounded-full overflow-hidden transition-transform duration-500 hover:scale-105"
+              >
+                <div className="absolute inset-0 bg-white/90 group-hover:bg-white transition-colors duration-500" />
+                <span className="relative font-medium text-lg md:text-xl tracking-tight z-10">
+                  rudrangshusonowal@gmail.com
                 </span>
-              </div>
-              
-              <h2 className="text-5xl md:text-7xl lg:text-[6rem] font-bold tracking-tighter leading-[1.1] mb-12">
-                Let&apos;s create something{" "}
-                <br className="hidden md:block" />
-                <span className={`${greatVibes.className} font-normal text-white/50 text-[1.2em] tracking-normal`}>
-                  extraordinary.
-                </span>
-              </h2>
+              </a>
 
               <a 
-                href="mailto:hello@rudrangshu.com"
-                className="group relative w-fit block"
+                href="https://www.instagram.com/rudrangshu___s/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative flex items-center justify-center gap-4 px-8 py-5 md:py-6 bg-white/5 text-white border border-white/10 rounded-full overflow-hidden transition-all duration-500 hover:bg-white/10 hover:border-white/20 hover:scale-105"
               >
-                <span className="text-3xl md:text-5xl lg:text-6xl font-medium tracking-tight text-white/80 group-hover:text-white transition-colors duration-500">
-                  hello@rudrangshu.com
+                <span className="relative font-medium text-lg md:text-xl tracking-wide z-10 flex items-center gap-3">
+                  <span className="text-white/50 font-normal">Instagram</span>
+                  @rudrangshu___s
                 </span>
-                <div className="absolute -bottom-2 left-0 w-0 h-[2px] bg-white group-hover:w-full transition-all duration-700 ease-out" />
+                <span className="relative font-mono text-lg transition-transform duration-500 group-hover:rotate-45 group-hover:scale-110 z-10">
+                  ↗
+                </span>
               </a>
-            </ScrollReveal>
-          </div>
-
-          {/* Right: Social Links Grid */}
-          <div className="lg:w-1/3 flex flex-col justify-end">
-            <ScrollReveal direction="up" delay={200}>
-              <p className="font-mono text-[10px] tracking-widest text-white/30 uppercase mb-6 lg:text-right">
-                Connect
-              </p>
-              <ul className="flex flex-col gap-0 w-full border-t border-white/10">
-                {[
-                  { name: 'Instagram', url: '#' },
-                  { name: 'X (Twitter)', url: '#' },
-                  { name: 'YouTube', url: '#' },
-                  { name: 'LinkedIn', url: '#' },
-                  { name: 'Vimeo', url: '#' }
-                ].map((social, i) => (
-                  <li key={social.name} className="border-b border-white/10">
-                    <a 
-                      href={social.url}
-                      className="group flex items-center justify-between py-5 text-white/60 hover:text-white transition-colors duration-300"
-                    >
-                      <span className="text-lg md:text-xl font-light">{social.name}</span>
-                      <span className="font-mono text-sm opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-                        ↗
-                      </span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </ScrollReveal>
-          </div>
+            </div>
+          </ScrollReveal>
         </div>
 
-        {/* ── Scrolling Marquee ── */}
-        <div className="relative w-full overflow-hidden py-12 flex items-center border-y border-white/5 bg-white/[0.01]">
-           <div className="flex whitespace-nowrap animate-marquee">
-             {/* Render it multiple times for seamless loop */}
-             {[...Array(4)].map((_, i) => (
-                <span key={i} className="font-mono text-[11px] md:text-xs uppercase tracking-[0.3em] text-white/40 mx-8">
-                  Rudrangshu Sonowal ✦ Available for freelance work ✦
-                </span>
-             ))}
-           </div>
-           
-           {/* Add a fade to edges of marquee */}
-           <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-black to-transparent pointer-events-none" />
-           <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-black to-transparent pointer-events-none" />
-        </div>
+        {/* ── Bottom Section (Footer) ── */}
+        <div className="w-full mt-auto">
+          
+          <div className="w-full h-[1px] bg-white/10" />
 
-        {/* ── Footer Bottom Bar ── */}
-        <div className="pt-8 mt-12 flex flex-col lg:flex-row justify-between items-center gap-6 text-center lg:text-left">
-          
-          {/* Easter egg trigger on copyright */}
-          <p
-            className="font-mono text-[10px] tracking-widest text-white/30 uppercase cursor-pointer select-none hover:text-white/50 transition-colors"
-            onClick={onCopyrightClick}
-            title="A secret lies beneath the surface..."
-          >
-            © {currentYear} Rudrangshu Sonowal
-          </p>
-          
-          <p className="font-mono text-[10px] tracking-widest text-white/30 uppercase">
-            Designed & developed with ❤️ by{" "}
-            <a 
-              href="https://aryyaman-s-about.vercel.app/" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-white font-semibold hover:text-white/80 transition-colors underline decoration-white/30 underline-offset-4 hover:decoration-white"
+          {/* ── Footer Bottom Bar ── */}
+          <div className="pt-6 pb-4 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+            
+            {/* Easter egg trigger on copyright */}
+            <p
+              className="font-mono text-xs tracking-widest text-white/30 uppercase cursor-pointer select-none hover:text-white/60 transition-colors"
+              onClick={onCopyrightClick}
+              title="A secret lies beneath the surface..."
             >
-              Aryyaman Bora
+              © {currentYear} Rudrangshu Sonowal
+            </p>
+            
+            <p className="font-mono text-xs tracking-widest text-white/30 uppercase">
+              Designed & developed with ❤️ by{" "}
+              <a 
+                href="https://aryyaman-s-about.vercel.app/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-white/70 font-semibold hover:text-white transition-colors underline decoration-white/20 underline-offset-4 hover:decoration-white/80"
+              >
+                Aryyaman Bora
+              </a>
+            </p>
+            
+            <a 
+              href="#"
+              className="font-mono text-xs tracking-widest text-white/30 uppercase hover:text-white transition-colors flex items-center gap-2 group"
+            >
+              Back to top 
+              <span className="group-hover:-translate-y-1 transition-transform">↑</span>
             </a>
-          </p>
-          
-          <a 
-            href="#"
-            className="font-mono text-[10px] tracking-widest text-white/30 uppercase hover:text-white transition-colors flex items-center gap-2 group"
-          >
-            Back to top 
-            <span className="group-hover:-translate-y-1 transition-transform">↑</span>
-          </a>
+          </div>
         </div>
 
       </div>

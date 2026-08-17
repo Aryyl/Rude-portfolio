@@ -4,7 +4,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import ScrollReveal from "@/components/ScrollReveal";
 import { useKonami } from "@/hooks/useKonami";
-import { Great_Vibes, Montserrat, Poppins, Playfair_Display } from "next/font/google";
+import { Montserrat, Poppins, Playfair_Display } from "next/font/google";
 
 // Removed OceanWave import
 const FilmArchive = dynamic(() => import("@/components/FilmArchive"), { ssr: false });
@@ -21,7 +21,6 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
 }
 
-const greatVibes = Great_Vibes({ weight: "400", subsets: ["latin"] });
 const montserrat = Montserrat({ weight: ["500", "700"], subsets: ["latin"] });
 const poppins = Poppins({ weight: ["400", "500"], subsets: ["latin"] });
 const playfair = Playfair_Display({ subsets: ["latin"], style: ["normal", "italic"] });
@@ -218,10 +217,10 @@ export default function Home() {
     // 2. Scale down and fade out the hero artwork
     tl.to(".hero-bg", { opacity: 0, scale: 0.95, duration: 1, ease: "power1.inOut" }, 0);
     
-    // 3. Fade the About section background from transparent to the #050505 dark charcoal
+    // 3. Fade the About section background from transparent to pitch black
     tl.fromTo(".about-bg-element", 
-      { backgroundColor: "rgba(5,5,5,0)" }, 
-      { backgroundColor: "rgba(5,5,5,1)", duration: 1, ease: "none" }, 
+      { backgroundColor: "rgba(0,0,0,0)" }, 
+      { backgroundColor: "rgba(0,0,0,1)", duration: 1, ease: "none" }, 
       0
     );
 

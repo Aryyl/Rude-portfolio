@@ -338,7 +338,7 @@ export default function FilmArchive() {
                 rgba(0,0,0,0.74) 0%,
                 rgba(0,0,0,0.10) 20%,
                 rgba(0,0,0,0.06) 58%,
-                rgba(0,0,0,0.80) 100%)
+                rgba(13,13,13,1) 100%)
             `,
           }} />
 
@@ -607,6 +607,9 @@ export default function FilmArchive() {
                 style={{ animation: "fa-scroll-dot 1.9s ease-in-out infinite" }} />
             </svg>
           </div>
+
+          {/* Smooth fade to black for the section transition */}
+          <div className="absolute bottom-0 left-0 w-full h-32 md:h-56 bg-gradient-to-t from-[#0D0D0D] to-[#0D0D0D]/0 pointer-events-none z-50" />
 
         </div>{/* /sticky */}
       </div>{/* /wrapper */}
