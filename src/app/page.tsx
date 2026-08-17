@@ -303,7 +303,7 @@ export default function Home() {
             
             {/* Brand wrapper */}
             <div
-              className="absolute top-[75%] md:top-1/2 left-1/2 md:left-[4vw] -translate-x-1/2 md:translate-x-0 -translate-y-1/2 logo-reveal pointer-events-none flex flex-col items-center md:items-start w-full md:w-auto"
+              className="absolute top-[75%] md:top-[64%] left-1/2 md:left-[4vw] -translate-x-1/2 md:translate-x-0 -translate-y-1/2 logo-reveal pointer-events-none flex flex-col items-center md:items-start w-full md:w-auto"
             >
               {/* Logo + Tagline */}
               <div className="flex w-fit flex-col items-center md:items-start text-center md:text-left">
@@ -323,7 +323,7 @@ export default function Home() {
           </div>
 
           {/* ── RIGHT COLUMN ── */}
-          <div className="flex flex-col justify-end md:justify-center items-center md:items-end w-full md:w-1/2 px-6 md:pr-12 lg:pr-16 text-center md:text-right relative h-[55vh] md:h-auto pb-24 md:pb-0">
+          <div className="flex flex-col justify-end items-center md:items-end w-full md:w-1/2 px-6 md:pr-12 lg:pr-16 text-center md:text-right relative h-[55vh] md:h-screen pb-24 md:pb-0">
             
             {/* Cinematic Camera Overlay (Right) */}
             <div className="hidden md:flex absolute top-32 right-8 md:right-12 lg:right-16 font-mono text-[9px] text-white/20 tracking-[0.3em] flex-col items-end gap-2 pointer-events-none select-none">
@@ -332,50 +332,51 @@ export default function Home() {
               <span>24 FPS</span>
             </div>
 
+            {/* Info panel */}
+            <div className="flex flex-col items-center md:items-end w-full relative md:absolute md:top-[64%] md:-translate-y-1/2 md:right-12 lg:right-16 md:w-auto">
+              {/* Label */}
+              <p
+                className={`text-white/80 font-bold text-sm md:text-base mb-1 ${montserrat.className}`}
+                style={{ letterSpacing: "0.04em" }}
+              >
+                What i do
+              </p>
 
+              {/* Video Editor — cursive large title looping */}
+              <TextLoop 
+                items={[
+                  <span key="1">Video <span className={`${montserrat.className} not-italic tracking-tighter font-medium`}>Editor</span></span>, 
+                  <span key="2">Cinematic <span className={`${montserrat.className} not-italic tracking-tighter font-medium`}>Filmmaker</span></span>, 
+                  <span key="3">Visual <span className={`${montserrat.className} not-italic tracking-tighter font-medium`}>Storyteller</span></span>, 
+                  <span key="4">Creative <span className={`${montserrat.className} not-italic tracking-tighter font-medium`}>Director</span></span>
+                ]}
+                interval={4000}
+                className={`text-white leading-none ${playfair.className} italic tracking-tight whitespace-nowrap`}
+                style={{ fontSize: "clamp(2rem, 3.5vw, 4.5rem)" }}
+              />
 
-            {/* Label */}
-            <p
-              className={`text-white/80 font-bold text-sm md:text-base mb-1 ${montserrat.className}`}
-              style={{ letterSpacing: "0.04em" }}
-            >
-              What i do
-            </p>
+              {/* Tagline */}
+              <p
+                className={`text-white/55 ${poppins.className} text-xs md:text-sm leading-relaxed mt-4 mb-10`}
+                style={{ maxWidth: "30ch", letterSpacing: "0.05em" }}
+              >
+                Every frame matters. <br/>
+                Every cut tells a story.
+              </p>
 
-            {/* Video Editor — cursive large title looping */}
-            <TextLoop 
-              items={[
-                <span key="1">Video <span className={`${montserrat.className} not-italic tracking-tighter font-medium`}>Editor</span></span>, 
-                <span key="2">Cinematic <span className={`${montserrat.className} not-italic tracking-tighter font-medium`}>Filmmaker</span></span>, 
-                <span key="3">Visual <span className={`${montserrat.className} not-italic tracking-tighter font-medium`}>Storyteller</span></span>, 
-                <span key="4">Creative <span className={`${montserrat.className} not-italic tracking-tighter font-medium`}>Director</span></span>
-              ]}
-              interval={4000}
-              className={`text-white leading-none ${playfair.className} italic tracking-tight whitespace-nowrap`}
-              style={{ fontSize: "clamp(2rem, 3.5vw, 4.5rem)" }}
-            />
-
-            {/* Tagline */}
-            <p
-              className={`text-white/55 ${poppins.className} text-xs md:text-sm leading-relaxed mt-4 mb-10`}
-              style={{ maxWidth: "30ch", letterSpacing: "0.05em" }}
-            >
-              Every frame matters. <br/>
-              Every cut tells a story.
-            </p>
-
-            {/* Action Buttons */}
-            <div className="flex justify-center md:justify-end items-center gap-6 w-full mt-4 md:mt-0">
-              <a href="#work" className="group flex items-center gap-3">
-                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/60 group-hover:text-white transition-colors">
-                  View Archive
-                </span>
-                <div className="w-8 h-[1px] bg-white/20 group-hover:bg-white group-hover:w-12 transition-all duration-300 hidden md:block" />
-              </a>
-              <span className="w-[1px] h-3 bg-white/20" />
-              <a href="#contact" className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40 hover:text-white transition-colors">
-                Contact
-              </a>
+              {/* Action Buttons */}
+              <div className="flex justify-center md:justify-end items-center gap-6 w-full mt-4 md:mt-0">
+                <a href="#work" className="group flex items-center gap-3">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/60 group-hover:text-white transition-colors">
+                    View Archive
+                  </span>
+                  <div className="w-8 h-[1px] bg-white/20 group-hover:bg-white group-hover:w-12 transition-all duration-300 hidden md:block" />
+                </a>
+                <span className="w-[1px] h-3 bg-white/20" />
+                <a href="#contact" className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40 hover:text-white transition-colors">
+                  Contact
+                </a>
+              </div>
             </div>
 
             {/* Aesthetic Grid Crosshair (Bottom Right) */}
