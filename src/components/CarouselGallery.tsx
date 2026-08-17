@@ -19,6 +19,7 @@ export type Project = {
   poster: string;
   description?: string;
   role?: string;
+  isVertical?: boolean;
 };
 
 const PROJECTS: Project[] = [
@@ -74,7 +75,7 @@ const PROJECTS: Project[] = [
     role: "Editor",
     type: "iframe",
     src: "https://drive.google.com/file/d/1330uAktITPYX9zKMKQUHQX2ybHvk3C_A/preview",
-    poster: "https://imagedelivery.net/IEUjvl3YUlxY-MrTpOAWDQ/34ce1842-4b7a-4d52-0302-38582c341700/w=800",
+    isVertical: true,
   },
   {
     id: "06",
@@ -84,7 +85,7 @@ const PROJECTS: Project[] = [
     role: "Cinematographer",
     type: "iframe",
     src: "https://drive.google.com/file/d/13Tczh56kPa5Q-TMqZpmE7ry47ZZ64tTC/preview",
-    poster: "https://imagedelivery.net/IEUjvl3YUlxY-MrTpOAWDQ/88369c6d-00cc-4ac9-74ca-0f0965e06300/w=800",
+    isVertical: true,
   },
   {
     id: "07",
@@ -94,7 +95,7 @@ const PROJECTS: Project[] = [
     role: "Director",
     type: "iframe",
     src: "https://drive.google.com/file/d/1wXkAJEh_KvW6nJOTKdp43pxbjEvm3GPW/preview",
-    poster: "https://imagedelivery.net/IEUjvl3YUlxY-MrTpOAWDQ/aeaa0756-9647-4f6c-d900-204bd25e4a00/w=800",
+    isVertical: true,
   }
 ];
 
@@ -366,7 +367,11 @@ export default function CarouselGallery() {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className={`w-full max-w-6xl bg-black rounded-xl border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.8)] overflow-hidden relative ${modalProject.type === "video" ? "aspect-video" : "h-[65vh] md:aspect-video"}`}
+              className={`bg-black rounded-xl border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.8)] overflow-hidden relative flex justify-center items-center ${
+                modalProject.isVertical 
+                  ? "w-auto h-[75vh] md:h-[85vh] aspect-[9/16]" 
+                  : "w-full max-w-6xl aspect-video"
+              }`}
             >
               {modalProject.type === "video" ? (
                 <video 
@@ -380,7 +385,7 @@ export default function CarouselGallery() {
               ) : (
                 <iframe 
                   src={modalProject.src} 
-                  allow="autoplay; fullscreen"
+                  allow="autoplay"
                   className="absolute inset-0 w-full h-full border-none bg-black"
                 />
               )}
