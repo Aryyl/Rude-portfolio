@@ -105,9 +105,13 @@ export default function CarouselGallery() {
   // Responsive settings
   const [cardWidth, setCardWidth] = useState(400);
 
+  // Touch logic
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+
   useEffect(() => {
     const handleResize = () => {
-      setCardWidth(window.innerWidth < 768 ? 260 : 420);
+      setCardWidth(window.innerWidth < 768 ? Math.min(window.innerWidth * 0.55, 240) : 420);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -141,7 +145,8 @@ export default function CarouselGallery() {
     const diff = index - activeIdx;
     const absDiff = Math.abs(diff);
     
-    const baseOffset = cardWidth * 0.6; // How much distance between cards
+    // Scale distance based on screen size so they don't overlap too much on mobile
+    const baseOffset = cardWidth * (window.innerWidth < 768 ? 0.75 : 0.6);
 
     if (diff === 0) {
       return {
@@ -177,7 +182,22 @@ export default function CarouselGallery() {
   };
 
   return (
-    <section className="relative w-full h-[100svh] bg-[#020306] overflow-hidden text-white flex flex-col justify-center items-center">
+    <section 
+      className="relative w-full h-[100svh] bg-[#020306] overflow-hidden text-white flex flex-col justify-center items-center"
+      onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+      onTouchMove={(e) => { touchEndX.current = e.touches[0].clientX; }}
+      onTouchEnd={() => {
+        if (!touchStartX.current || !touchEndX.current) return;
+        const diff = touchStartX.current - touchEndX.current;
+        if (diff > 50) {
+          setActiveIdx(p => Math.min(p + 1, PROJECTS.length - 1));
+        } else if (diff < -50) {
+          setActiveIdx(p => Math.max(p - 1, 0));
+        }
+        touchStartX.current = 0;
+        touchEndX.current = 0;
+      }}
+    >
       {/* Background Cinematic Grain */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(20,30,50,0.6)_0%,rgba(2,3,6,1)_70%)]" />
@@ -188,18 +208,18 @@ export default function CarouselGallery() {
       </div>
 
       {/* Header Info */}
-      <div className="absolute top-16 md:top-24 left-0 right-0 z-20 flex flex-col items-center pointer-events-none px-4">
-        <h1 className={`${montserrat.className} text-3xl md:text-5xl font-bold tracking-tight text-white/90 mb-3 text-center`}>
+      <div className="absolute top-24 md:top-24 left-0 right-0 z-20 flex flex-col items-center pointer-events-none px-4">
+        <h1 className={`${montserrat.className} text-2xl md:text-5xl font-bold tracking-tight text-white/90 mb-2 md:mb-3 text-center`}>
           Selected Works
         </h1>
-        <p className="text-white/40 text-sm md:text-base font-mono uppercase tracking-widest text-center">
+        <p className="text-white/40 text-xs md:text-base font-mono uppercase tracking-widest text-center">
           Cinematic Portfolio
         </p>
       </div>
 
       {/* Carousel Container */}
       <div 
-        className="relative w-full flex justify-center items-center h-[50vh] mt-8"
+        className="relative w-full flex justify-center items-center h-[45vh] md:h-[50vh] mt-8 md:mt-8"
         style={{ perspective: "1200px" }}
       >
         {PROJECTS.map((proj, i) => {
@@ -283,7 +303,7 @@ export default function CarouselGallery() {
       </div>
 
       {/* Bottom Center Project Info */}
-      <div className="absolute bottom-16 md:bottom-24 left-0 right-0 z-20 flex flex-col items-center pointer-events-none">
+      <div className="absolute bottom-20 md:bottom-24 left-0 right-0 z-20 flex flex-col items-center pointer-events-none">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeIdx}
@@ -291,15 +311,15 @@ export default function CarouselGallery() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.4 }}
-            className="flex flex-col items-center px-6"
+            className="flex flex-col items-center px-4 md:px-6"
           >
-            <p className="font-mono text-xs uppercase tracking-widest text-[#8CD2FF] mb-2 text-center">
+            <p className="font-mono text-[10px] md:text-xs uppercase tracking-widest text-[#8CD2FF] mb-2 text-center">
               {PROJECTS[activeIdx].category} · {PROJECTS[activeIdx].year}
             </p>
-            <h2 className={`${greatVibes.className} text-5xl md:text-7xl font-normal text-white/90 mb-4 text-center drop-shadow-lg`}>
+            <h2 className={`${greatVibes.className} text-4xl md:text-7xl font-normal text-white/90 mb-2 md:mb-4 text-center drop-shadow-lg leading-tight`}>
               &ldquo;{PROJECTS[activeIdx].title}&rdquo;
             </h2>
-            <p className="text-white/40 text-sm md:text-base font-sans max-w-lg text-center leading-relaxed">
+            <p className="text-white/40 text-xs md:text-base font-sans max-w-xs md:max-w-lg text-center leading-relaxed">
               {PROJECTS[activeIdx].description}
             </p>
           </motion.div>
@@ -327,12 +347,12 @@ export default function CarouselGallery() {
             initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
             animate={{ opacity: 1, backdropFilter: "blur(20px)" }}
             exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
-            className="fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center p-4 md:p-12"
+            className="fixed inset-0 z-[100] bg-black/95 flex flex-col items-center justify-center p-4 pt-16 md:p-12"
           >
             {/* Close Button */}
             <button 
               onClick={() => setModalProject(null)}
-              className="absolute top-6 right-6 md:top-10 md:right-10 w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors z-50"
+              className="absolute top-4 right-4 md:top-10 md:right-10 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white/80 hover:text-white hover:bg-white/30 transition-colors z-[110]"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 <path d="M18 6L6 18M6 6l12 12" />

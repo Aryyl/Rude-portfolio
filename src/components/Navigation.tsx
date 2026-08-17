@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 export default function Navigation() {
   const [isVisible, setIsVisible] = useState(true);
@@ -58,17 +59,17 @@ export default function Navigation() {
         <div className="w-full max-w-screen-2xl mx-auto px-6 md:px-12 py-6 flex items-center justify-between text-white">
           
           {/* Logo */}
-          <a 
-            href="#"
+          <Link 
+            href="/"
             className="text-2xl font-bold tracking-tighter hover:opacity-70 transition-opacity"
           >
             rude.
-          </a>
+          </Link>
 
           {/* Desktop Links */}
           <div className="hidden md:flex items-center gap-8">
             {links.map((link) => (
-              <a
+              <Link
                 key={link.name}
                 href={link.href}
                 className="text-sm font-medium tracking-wide uppercase opacity-80 hover:opacity-100 transition-opacity relative group"
@@ -76,7 +77,7 @@ export default function Navigation() {
                 {link.name}
                 {/* Subtle underline on hover */}
                 <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full" />
-              </a>
+              </Link>
             ))}
           </div>
 
@@ -99,7 +100,7 @@ export default function Navigation() {
       >
         <div className="flex flex-col items-center gap-8">
           {links.map((link, i) => (
-            <a
+            <Link
               key={link.name}
               href={link.href}
               onClick={() => setIsMobileMenuOpen(false)}
@@ -114,7 +115,7 @@ export default function Navigation() {
               }}
             >
               {link.name}
-            </a>
+            </Link>
           ))}
         </div>
       </div>

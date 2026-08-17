@@ -21,7 +21,7 @@ export default function ContactSection({ onCopyrightClick }: ContactSectionProps
         <img 
           src="/contact-bg.gif" 
           alt="Background animation" 
-          className="w-full h-full object-contain scale-[1.3] md:scale-125"
+          className="w-full h-full object-contain scale-[1.3] md:scale-[1.25] -translate-y-8"
         />
       </div>
 
@@ -50,25 +50,25 @@ export default function ContactSection({ onCopyrightClick }: ContactSectionProps
             </h2>
 
             {/* Action Buttons */}
-            <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 w-full mt-8 flex-wrap">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6 w-full max-w-sm md:max-w-none mx-auto mt-6 md:mt-8">
               <a 
                 href="mailto:rudrangshusonowal@gmail.com"
-                className="group relative flex items-center justify-center gap-3 px-6 py-4 bg-white text-black rounded-full overflow-hidden transition-transform duration-500 hover:scale-105"
+                className="group relative flex items-center justify-center gap-3 px-4 md:px-6 py-3.5 md:py-4 bg-white text-black rounded-full overflow-hidden transition-transform duration-500 hover:scale-105 w-full md:w-auto"
               >
                 <div className="absolute inset-0 bg-white/90 group-hover:bg-white transition-colors duration-500" />
-                <span className="relative font-medium text-base md:text-lg tracking-tight z-10">
+                <span className="relative font-medium text-sm sm:text-base md:text-lg tracking-tight z-10 break-all sm:break-normal">
                   rudrangshusonowal@gmail.com
                 </span>
               </a>
 
               <a 
                 href="/gallery"
-                className="group relative flex items-center justify-center gap-3 px-6 py-4 bg-white/5 text-white border border-white/10 rounded-full overflow-hidden transition-all duration-500 hover:bg-white/10 hover:border-white/20 hover:scale-105"
+                className="group relative flex items-center justify-center gap-3 px-4 md:px-6 py-3.5 md:py-4 bg-white/5 text-white border border-white/10 rounded-full overflow-hidden transition-all duration-500 hover:bg-white/10 hover:border-white/20 hover:scale-105 w-full md:w-auto"
               >
-                <span className="relative font-medium text-base md:text-lg tracking-wide z-10 flex items-center gap-2">
+                <span className="relative font-medium text-sm sm:text-base md:text-lg tracking-wide z-10 flex items-center gap-2">
                   View Video Gallery
                 </span>
-                <span className="relative font-mono text-lg transition-transform duration-500 group-hover:translate-x-1 z-10">
+                <span className="relative font-mono text-base md:text-lg transition-transform duration-500 group-hover:translate-x-1 z-10">
                   →
                 </span>
               </a>
@@ -77,13 +77,13 @@ export default function ContactSection({ onCopyrightClick }: ContactSectionProps
                 href="https://www.instagram.com/rudrangshu___s/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative flex items-center justify-center gap-3 px-6 py-4 bg-white/5 text-white border border-white/10 rounded-full overflow-hidden transition-all duration-500 hover:bg-white/10 hover:border-white/20 hover:scale-105"
+                className="group relative flex items-center justify-center gap-3 px-4 md:px-6 py-3.5 md:py-4 bg-white/5 text-white border border-white/10 rounded-full overflow-hidden transition-all duration-500 hover:bg-white/10 hover:border-white/20 hover:scale-105 w-full md:w-auto"
               >
-                <span className="relative font-medium text-base md:text-lg tracking-wide z-10 flex items-center gap-2">
+                <span className="relative font-medium text-sm sm:text-base md:text-lg tracking-wide z-10 flex items-center gap-2">
                   <span className="text-white/50 font-normal">Instagram</span>
                   @rudrangshu___s
                 </span>
-                <span className="relative font-mono text-base transition-transform duration-500 group-hover:rotate-45 group-hover:scale-110 z-10">
+                <span className="relative font-mono text-sm md:text-base transition-transform duration-500 group-hover:rotate-45 group-hover:scale-110 z-10">
                   ↗
                 </span>
               </a>

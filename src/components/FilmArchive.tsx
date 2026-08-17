@@ -213,77 +213,20 @@ export default function FilmArchive() {
 
   const proj = PROJECTS[activeIdx];
 
-  // ─────────────────── MOBILE LAYOUT ─────────────────────────────────────────
-  if (isMobile) {
-    return (
-      <>
-        <div style={{ background: "#020306" }}>
-          <div style={{ padding: "56px 20px 36px", textAlign: "center", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-            <p style={{ margin: "0 0 10px", fontFamily: "monospace", fontSize: 9, letterSpacing: "0.38em", textTransform: "uppercase", color: "rgba(255,255,255,0.20)" }}>
-              Selected Works
-            </p>
-            <h2 className={greatVibes.className} style={{ margin: 0, fontSize: "clamp(2.2rem, 10vw, 3.4rem)", fontWeight: 400, color: "rgba(255,255,255,0.86)" }}>
-              The Archive
-            </h2>
-          </div>
-
-          {PROJECTS.map((p, i) => (
-            <div
-              key={i}
-              style={{ position: "relative", height: "72vh", overflow: "hidden", cursor: "pointer" }}
-              onClick={() => { setActiveIdx(i); setModal(true); }}
-            >
-              <video
-                src={p.src}
-                muted loop playsInline autoPlay
-                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-              />
-              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.75) 100%)" }} />
-              <div style={{ position: "absolute", top: 16, left: 20 }}>
-                <span style={{ fontFamily: "monospace", fontSize: 10, letterSpacing: "0.28em", color: "rgba(255,255,255,0.28)" }}>
-                  {p.number} / {String(N).padStart(2, "0")}
-                </span>
-              </div>
-              <div style={{ position: "absolute", bottom: 24, left: 20, right: 20 }}>
-                <p style={{ margin: "0 0 5px", fontFamily: "monospace", fontSize: 9, letterSpacing: "0.24em", textTransform: "uppercase", color: "rgba(255,255,255,0.40)" }}>
-                  {p.category}
-                </p>
-                <h3 className={greatVibes.className} style={{ margin: "0 0 6px", fontSize: "clamp(1.6rem, 7vw, 2.4rem)", fontWeight: 400, color: "rgba(255,255,255,0.92)" }}>
-                  &ldquo;{p.title}&rdquo;
-                </h3>
-                <p style={{ margin: 0, fontFamily: "var(--font-geist-sans, system-ui)", fontSize: 12, color: "rgba(255,255,255,0.34)", letterSpacing: "0.03em" }}>
-                  {p.description}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {modal && (
-          <ProjectModal
-            project={PROJECTS[activeIdx]}
-            total={N}
-            gvClass={greatVibes.className}
-            onClose={() => setModal(false)}
-          />
-        )}
-        <KeyframeStyles />
-      </>
-    );
-  }
+  // We are removing the basic stacked mobile layout so all devices get the animated sticky layout.
 
   // ─────────────────── DESKTOP LAYOUT ────────────────────────────────────────
   //
-  // Wrapper height = (N + 1) × 100vh
-  //   • Each of the N projects owns 100vh of scroll.
-  //   • The final extra 100vh means the last project gets a full screen of dwell
+  // Wrapper height = (N + 1) × 100svh
+  //   • Each of the N projects owns 100svh of scroll.
+  //   • The final extra 100svh means the last project gets a full screen of dwell
   //     before the sticky element unsticks and normal page scroll resumes.
   //
   return (
     <>
       <div
         ref={wrapperRef}
-        style={{ height: `${(N + 1) * 100}vh`, position: "relative" }}
+        style={{ height: `${(N + 1) * 100}svh`, position: "relative" }}
         aria-label="Film Archive — Selected Works"
       >
         {/* ── STICKY VIEWPORT ─────────────────────────────────────────────── */}
@@ -291,7 +234,7 @@ export default function FilmArchive() {
           style={{
             position: "sticky",
             top: 0,
-            height: "100vh",
+            height: "100svh",
             overflow: "hidden",
             background: "#020306",
             cursor: hovering ? "pointer" : "default",
@@ -427,7 +370,7 @@ export default function FilmArchive() {
               textTransform: "uppercase",
               color: "white",
             }}>
-              {proj.year}&ensp;·&ensp;{proj.role}
+              {isMobile ? proj.year : `${proj.year}\u2002·\u2002${proj.role}`}
             </span>
           </div>
 
@@ -520,7 +463,7 @@ export default function FilmArchive() {
               color: "rgba(255,255,255,0.34)",
               letterSpacing: "0.04em",
               textAlign: "center",
-              maxWidth: "44ch",
+              maxWidth: isMobile ? "32ch" : "44ch",
               opacity: textIn ? 1 : 0,
               transform: textIn ? "translateY(0px)" : "translateY(16px)",
               transition: "opacity 0.44s cubic-bezier(0.16,1,0.3,1) 0.07s, transform 0.44s cubic-bezier(0.16,1,0.3,1) 0.07s",
@@ -535,8 +478,8 @@ export default function FilmArchive() {
               style={{
                 marginTop: 6,
                 display: "flex", alignItems: "center", gap: 10,
-                opacity: textIn ? (hovering ? 0.88 : 0.28) : 0,
-                transform: hovering ? "scale(1.06)" : "scale(1)",
+                opacity: textIn ? (isMobile ? 0.88 : (hovering ? 0.88 : 0.28)) : 0,
+                transform: (isMobile || hovering) ? "scale(1.06)" : "scale(1)",
                 transition: "opacity 0.4s ease 0.12s, transform 0.32s cubic-bezier(0.16,1,0.3,1)",
               }}
             >

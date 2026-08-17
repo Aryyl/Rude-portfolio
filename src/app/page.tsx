@@ -270,14 +270,23 @@ export default function Home() {
 
       {/* ── Hero Section ── */}
       <div className="sticky top-0 min-h-screen w-full overflow-hidden hero-bg">
-        {/* ── Video background ── */}
+        {/* ── Video background (Desktop) ── */}
         <video
           autoPlay
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover pointer-events-none z-0"
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none z-0 hidden md:block"
           src="/RUDE%20FRONT%20WITHOUT%20LOGO.mp4"
+        />
+        {/* ── Video background (Mobile 9:16) ── */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none z-0 block md:hidden"
+          src="/hero%20section%20bg/916.MP4"
         />
 
         {/* ── Hero content ── */}
