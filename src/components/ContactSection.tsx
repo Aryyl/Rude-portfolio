@@ -40,14 +40,7 @@ export default function ContactSection({ onCopyrightClick }: ContactSectionProps
         {/* ── Main CTA Area ── */}
         <div className="flex flex-col items-center w-full mb-16 mt-4">
           <ScrollReveal direction="up" delay={0}>
-            <div className="flex items-center gap-4 mb-8 justify-center">
-              <div className="w-1.5 h-1.5 rounded-full bg-white/40 animate-pulse" />
-              <span className="font-mono text-xs md:text-sm uppercase tracking-[0.3em] text-white/50">
-                Ready to collaborate?
-              </span>
-              <div className="w-1.5 h-1.5 rounded-full bg-white/40 animate-pulse" />
-            </div>
-            
+
             <h2 className={`${montserrat.className} text-[2.5rem] md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tighter leading-[0.95] mb-10 max-w-5xl mx-auto`}>
               Let&apos;s create something
               <br />
@@ -57,14 +50,26 @@ export default function ContactSection({ onCopyrightClick }: ContactSectionProps
             </h2>
 
             {/* Action Buttons */}
-            <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 w-full mt-8">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 w-full mt-8 flex-wrap">
               <a 
                 href="mailto:rudrangshusonowal@gmail.com"
-                className="group relative flex items-center justify-center gap-4 px-8 py-5 md:py-6 bg-white text-black rounded-full overflow-hidden transition-transform duration-500 hover:scale-105"
+                className="group relative flex items-center justify-center gap-3 px-6 py-4 bg-white text-black rounded-full overflow-hidden transition-transform duration-500 hover:scale-105"
               >
                 <div className="absolute inset-0 bg-white/90 group-hover:bg-white transition-colors duration-500" />
-                <span className="relative font-medium text-lg md:text-xl tracking-tight z-10">
+                <span className="relative font-medium text-base md:text-lg tracking-tight z-10">
                   rudrangshusonowal@gmail.com
+                </span>
+              </a>
+
+              <a 
+                href="/gallery"
+                className="group relative flex items-center justify-center gap-3 px-6 py-4 bg-white/5 text-white border border-white/10 rounded-full overflow-hidden transition-all duration-500 hover:bg-white/10 hover:border-white/20 hover:scale-105"
+              >
+                <span className="relative font-medium text-base md:text-lg tracking-wide z-10 flex items-center gap-2">
+                  View Video Gallery
+                </span>
+                <span className="relative font-mono text-lg transition-transform duration-500 group-hover:translate-x-1 z-10">
+                  →
                 </span>
               </a>
 
@@ -72,13 +77,13 @@ export default function ContactSection({ onCopyrightClick }: ContactSectionProps
                 href="https://www.instagram.com/rudrangshu___s/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative flex items-center justify-center gap-4 px-8 py-5 md:py-6 bg-white/5 text-white border border-white/10 rounded-full overflow-hidden transition-all duration-500 hover:bg-white/10 hover:border-white/20 hover:scale-105"
+                className="group relative flex items-center justify-center gap-3 px-6 py-4 bg-white/5 text-white border border-white/10 rounded-full overflow-hidden transition-all duration-500 hover:bg-white/10 hover:border-white/20 hover:scale-105"
               >
-                <span className="relative font-medium text-lg md:text-xl tracking-wide z-10 flex items-center gap-3">
+                <span className="relative font-medium text-base md:text-lg tracking-wide z-10 flex items-center gap-2">
                   <span className="text-white/50 font-normal">Instagram</span>
                   @rudrangshu___s
                 </span>
-                <span className="relative font-mono text-lg transition-transform duration-500 group-hover:rotate-45 group-hover:scale-110 z-10">
+                <span className="relative font-mono text-base transition-transform duration-500 group-hover:rotate-45 group-hover:scale-110 z-10">
                   ↗
                 </span>
               </a>
@@ -96,14 +101,14 @@ export default function ContactSection({ onCopyrightClick }: ContactSectionProps
             
             {/* Easter egg trigger on copyright */}
             <p
-              className="font-mono text-xs tracking-widest text-white/30 uppercase cursor-pointer select-none hover:text-white/60 transition-colors"
+              className="font-mono text-[10px] tracking-widest text-white/30 uppercase cursor-pointer select-none hover:text-white/60 transition-colors"
               onClick={onCopyrightClick}
               title="A secret lies beneath the surface..."
             >
               © {currentYear} Rudrangshu Sonowal
             </p>
             
-            <p className="font-mono text-xs tracking-widest text-white/30 uppercase">
+            <p className="font-mono text-[10px] tracking-widest text-white/30 uppercase">
               Designed & developed with ❤️ by{" "}
               <a 
                 href="https://aryyaman-s-about.vercel.app/" 
@@ -117,7 +122,7 @@ export default function ContactSection({ onCopyrightClick }: ContactSectionProps
             
             <a 
               href="#"
-              className="font-mono text-xs tracking-widest text-white/30 uppercase hover:text-white transition-colors flex items-center gap-2 group"
+              className="font-mono text-[10px] tracking-widest text-white/30 uppercase hover:text-white transition-colors flex items-center gap-2 group"
             >
               Back to top 
               <span className="group-hover:-translate-y-1 transition-transform">↑</span>

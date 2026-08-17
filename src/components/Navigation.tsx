@@ -40,10 +40,11 @@ export default function Navigation() {
   }, [isMobileMenuOpen]);
 
   const links = [
-    { name: "About", href: "#about" },
-    { name: "Services", href: "#services" },
-    { name: "Work", href: "#work" },
-    { name: "Contact", href: "#contact" },
+    { name: "About", href: "/#about" },
+    { name: "Services", href: "/#services" },
+    { name: "Work", href: "/#work" },
+    { name: "Gallery", href: "/gallery" },
+    { name: "Contact", href: "/#contact" },
   ];
 
   return (
