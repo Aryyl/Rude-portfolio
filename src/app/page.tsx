@@ -303,7 +303,7 @@ export default function Home() {
             
             {/* Brand wrapper */}
             <div
-              className="absolute top-[75%] md:top-[64%] left-1/2 md:left-[4vw] -translate-x-1/2 md:translate-x-0 -translate-y-1/2 logo-reveal pointer-events-none flex flex-col items-center md:items-start w-full md:w-auto"
+              className="absolute top-[75%] md:top-1/2 left-1/2 md:left-[4vw] -translate-x-1/2 md:translate-x-0 -translate-y-1/2 logo-reveal pointer-events-none flex flex-col items-center md:items-start w-full md:w-auto"
             >
               {/* Logo + Tagline */}
               <div className="flex w-fit flex-col items-center md:items-start text-center md:text-left">
