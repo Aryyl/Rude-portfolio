@@ -279,8 +279,9 @@ export default function CarouselGallery() {
               ) : (
                 <iframe 
                   src={proj.src}
-                  className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+                  className="absolute inset-0 w-full h-full pointer-events-none"
                   style={{ border: 'none' }}
+                  allow="autoplay; fullscreen"
                 />
               )}
               
@@ -365,7 +366,7 @@ export default function CarouselGallery() {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="w-full max-w-6xl aspect-video bg-black rounded-xl border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.8)] overflow-hidden relative"
+              className={`w-full max-w-6xl bg-black rounded-xl border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.8)] overflow-hidden relative ${modalProject.type === "video" ? "aspect-video" : "h-[65vh] md:aspect-video"}`}
             >
               {modalProject.type === "video" ? (
                 <video 
@@ -379,8 +380,8 @@ export default function CarouselGallery() {
               ) : (
                 <iframe 
                   src={modalProject.src} 
-                  allow="autoplay"
-                  className="w-full h-full object-contain border-none bg-black"
+                  allow="autoplay; fullscreen"
+                  className="absolute inset-0 w-full h-full border-none bg-black"
                 />
               )}
             </motion.div>
