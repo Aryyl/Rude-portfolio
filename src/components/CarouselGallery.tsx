@@ -148,7 +148,7 @@ export default function CarouselGallery() {
     const absDiff = Math.abs(diff);
     
     // Scale distance based on screen size so they don't overlap too much on mobile
-    const baseOffset = cardWidth * (window.innerWidth < 768 ? 0.75 : 0.6);
+    const baseOffset = cardWidth * (window.innerWidth < 768 ? 0.85 : 0.95);
 
     if (diff === 0) {
       return {
@@ -162,7 +162,7 @@ export default function CarouselGallery() {
       };
     } else if (diff < 0) {
       return {
-        x: -(baseOffset + absDiff * (cardWidth * 0.3)),
+        x: -(baseOffset + absDiff * (cardWidth * 0.45)),
         z: -100 - absDiff * 100,
         rotateY: 35,
         scale: 0.9 - absDiff * 0.05,
@@ -172,7 +172,7 @@ export default function CarouselGallery() {
       };
     } else {
       return {
-        x: baseOffset + absDiff * (cardWidth * 0.3),
+        x: baseOffset + absDiff * (cardWidth * 0.45),
         z: -100 - absDiff * 100,
         rotateY: -35,
         scale: 0.9 - absDiff * 0.05,
