@@ -327,9 +327,7 @@ export default function CarouselGallery() {
             transition={{ duration: 0.4 }}
             className="flex flex-col items-center px-4 md:px-6"
           >
-            <p className="font-mono text-[10px] md:text-xs uppercase tracking-widest text-[#8CD2FF] mb-2 text-center">
-              {PROJECTS[activeIdx].category} · {PROJECTS[activeIdx].year}
-            </p>
+
             <h2 className={`${greatVibes.className} text-4xl md:text-7xl font-normal text-white/90 mb-2 md:mb-4 text-center drop-shadow-lg leading-tight`}>
               &ldquo;{PROJECTS[activeIdx].title}&rdquo;
             </h2>
@@ -413,9 +411,7 @@ export default function CarouselGallery() {
               <h3 className={`${montserrat.className} text-2xl font-bold tracking-tight text-white mb-2`}>
                 {modalProject.title}
               </h3>
-              <p className="text-white/50 font-mono text-sm uppercase tracking-widest">
-                {modalProject.category} · {modalProject.role}
-              </p>
+
             </motion.div>
           </motion.div>
         )}
