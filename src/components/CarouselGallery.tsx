@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Great_Vibes, Montserrat } from "next/font/google";
+import Snowfall from "./Snowfall";
 
 const greatVibes = Great_Vibes({ weight: "400", subsets: ["latin"] });
 const montserrat = Montserrat({ weight: ["400", "500", "700"], subsets: ["latin"] });
@@ -199,11 +200,22 @@ export default function CarouselGallery() {
         touchEndX.current = 0;
       }}
     >
-      {/* Background Cinematic Grain */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
+      {/* Background Cinematic Grain & Snow */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(20,30,50,0.6)_0%,rgba(2,3,6,1)_70%)]" />
+        <Snowfall 
+          color="#ffffff" 
+          count={150} 
+          opacityMin={10} 
+          opacityMax={40} 
+          sizeMin={1} 
+          sizeMax={3} 
+          speedMin={0.5} 
+          speedMax={2.0} 
+          wind={-0.2} 
+        />
         <div 
-          className="absolute inset-0 opacity-[0.04] mix-blend-overlay" 
+          className="absolute inset-0 opacity-[0.04] mix-blend-overlay pointer-events-none" 
           style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")', backgroundRepeat: 'repeat' }}
         />
       </div>
