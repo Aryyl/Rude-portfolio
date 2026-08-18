@@ -73,8 +73,8 @@ const PROJECTS: Project[] = [
     category: "Cinematic",
     year: "2026",
     role: "Editor",
-    type: "video",
-    src: "https://drive.google.com/uc?export=download&id=1330uAktITPYX9zKMKQUHQX2ybHvk3C_A",
+    type: "iframe",
+    src: "https://drive.google.com/file/d/1330uAktITPYX9zKMKQUHQX2ybHvk3C_A/preview",
     isVertical: true,
   },
   {
@@ -83,8 +83,8 @@ const PROJECTS: Project[] = [
     category: "Documentary",
     year: "2026",
     role: "Cinematographer",
-    type: "video",
-    src: "https://drive.google.com/uc?export=download&id=13Tczh56kPa5Q-TMqZpmE7ry47ZZ64tTC",
+    type: "iframe",
+    src: "https://drive.google.com/file/d/13Tczh56kPa5Q-TMqZpmE7ry47ZZ64tTC/preview",
     isVertical: true,
   },
   {
@@ -93,8 +93,8 @@ const PROJECTS: Project[] = [
     category: "Experimental",
     year: "2026",
     role: "Director",
-    type: "video",
-    src: "https://drive.google.com/uc?export=download&id=1wXkAJEh_KvW6nJOTKdp43pxbjEvm3GPW",
+    type: "iframe",
+    src: "https://drive.google.com/file/d/1wXkAJEh_KvW6nJOTKdp43pxbjEvm3GPW/preview",
     isVertical: true,
   }
 ];
