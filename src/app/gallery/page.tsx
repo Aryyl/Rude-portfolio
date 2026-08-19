@@ -6,7 +6,7 @@ const CarouselGallery = dynamic(() => import("@/components/CarouselGallery"), { 
 
 export default function GalleryPage() {
   return (
-    <main className="min-h-screen bg-[#020306] text-white selection:bg-white selection:text-black">
+    <main className="min-h-screen bg-white text-[#111]">
       {/* 3D Cover Flow Carousel Gallery */}
       <CarouselGallery />
     </main>

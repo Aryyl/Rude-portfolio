@@ -2,8 +2,11 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Navigation() {
+  const pathname = usePathname();
+  const isGallery = pathname === "/gallery";
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -40,6 +43,42 @@ export default function Navigation() {
     };
   }, [isMobileMenuOpen]);
 
+  // Handle scrolling to hash links on page load or route change (especially for dynamically loaded sections)
+  useEffect(() => {
+    if (pathname === "/" && window.location.hash) {
+      const targetId = window.location.hash.substring(1);
+      const attemptScroll = (retries = 0) => {
+        const el = document.getElementById(targetId);
+        if (el) {
+          // Add a small delay to ensure rendering is complete before scrolling
+          setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 100);
+        } else if (retries < 20) {
+          setTimeout(() => attemptScroll(retries + 1), 100);
+        }
+      };
+      attemptScroll();
+    }
+  }, [pathname]);
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith("/#")) {
+      const targetId = href.substring(2);
+      
+      if (pathname === "/") {
+        e.preventDefault();
+        const element = document.getElementById(targetId);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+          window.history.pushState(null, "", href); // Update URL hash without navigation
+        }
+        setIsMobileMenuOpen(false);
+        return;
+      }
+    }
+    
+    setIsMobileMenuOpen(false);
+  };
+
   const links = [
     { name: "About", href: "/#about" },
     { name: "Services", href: "/#services" },
@@ -51,17 +90,17 @@ export default function Navigation() {
   return (
     <>
       <nav
-        className={`fixed top-0 w-full z-50 transition-transform duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] ${
+        className={`fixed top-0 w-full z-[100] transition-transform duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] ${
           isVisible || isMobileMenuOpen ? "translate-y-0" : "-translate-y-full"
         }`}
-        style={{ mixBlendMode: isMobileMenuOpen ? "normal" : "difference" }}
+        style={{ mixBlendMode: isMobileMenuOpen || isGallery ? "normal" : "difference" }}
       >
-        <div className="w-full max-w-screen-2xl mx-auto px-6 md:px-12 py-6 flex items-center justify-between text-white">
+        <div className={`w-full max-w-screen-2xl mx-auto px-6 md:px-12 py-6 flex items-center justify-between ${isGallery ? "text-[#111]" : "text-white"}`}>
           
           {/* Logo */}
           <Link 
             href="/"
-            className="text-2xl font-bold tracking-tighter hover:opacity-70 transition-opacity"
+            className="text-2xl font-bold tracking-tighter hover:opacity-70 transition-opacity focus:outline-none"
           >
             rude.
           </Link>
@@ -72,11 +111,12 @@ export default function Navigation() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-sm font-medium tracking-wide uppercase opacity-80 hover:opacity-100 transition-opacity relative group"
+                onClick={(e) => handleNavClick(e, link.href)}
+                className="text-sm font-medium tracking-wide uppercase opacity-80 hover:opacity-100 transition-opacity relative group focus:outline-none"
               >
                 {link.name}
-                {/* Subtle underline on hover */}
-                <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full" />
+                {/* Subtle underline on hover or when active */}
+                <span className={`absolute -bottom-1 left-0 h-[1px] transition-all duration-300 ${pathname === link.href ? "w-full" : "w-0 group-hover:w-full"} ${isGallery ? "bg-[#111]" : "bg-white"}`} />
               </Link>
             ))}
           </div>
@@ -103,7 +143,7 @@ export default function Navigation() {
             <Link
               key={link.name}
               href={link.href}
-              onClick={() => setIsMobileMenuOpen(false)}
+              onClick={(e) => handleNavClick(e, link.href)}
               className="text-3xl font-medium tracking-widest uppercase text-white hover:text-white/70 transition-colors"
               style={{
                 transitionProperty: "transform, opacity",
