@@ -542,7 +542,7 @@ export default function CarouselGallery() {
         {/* Carousel Container — card design & animation UNCHANGED */}
         <div
           ref={carouselRef}
-          className="relative w-full flex justify-center items-center h-[50vh] md:h-[60vh] mt-6 md:mt-0 md:-translate-y-8"
+          className="relative w-full flex justify-center items-center h-[50vh] md:h-[60vh] md:mt-0 -translate-y-8"
           style={{ perspective: "1200px" }}
         >
           {filteredProjects.map((proj, i) => {
