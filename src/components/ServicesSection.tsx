@@ -13,35 +13,35 @@ const SERVICES = [
     tag: "Post-Production",
     desc: "Frame-perfect cuts that breathe life into raw footage, ensuring every moment hits with maximum emotional impact.",
     approach: "Story dictates the rhythm.",
-    video: "/gallery/The break is over..mp4",
+    video: "/service/cinematic.mp4",
   },
   {
     title: "Commercial & Brand Content",
     tag: "Advertising",
     desc: "Visuals that sell without ever feeling like an ad. Built to elevate brand identity and drive engagement.",
     approach: "Hook the viewer in the first 3 seconds.",
-    video: "/gallery/Totally random..mp4",
+    video: "/service/Commercial and brand.mp4",
   },
   {
     title: "Product Advertisement Videos",
     tag: "Marketing",
     desc: "Make your product the star it deserves to be with dynamic lighting, pacing, and seamless transitions.",
     approach: "Highlight the details that matter.",
-    video: "/gallery/Pitai is important.Flame Kaiser being my fav one..mp4",
+    video: "/service/Color Grading.mp4",
   },
   {
     title: "Color Grading",
     tag: "Color Science",
     desc: "Mood, tone and emotion dialed in pixel by pixel to create a cohesive and striking visual language.",
     approach: "Color is an unspoken character.",
-    video: "/gallery/If i can u can too..POST IT.mp4",
+    video: "/service/Color Grading.mp4",
   },
   {
     title: "Sound Design",
     tag: "Audio",
     desc: "Because great visuals deserve equally great sound. Immersive soundscapes that ground the viewer in the scene.",
     approach: "Half the picture is what you hear.",
-    video: "/gallery/Totally random..mp4",
+    video: "/service/sound design.mp4",
   },
   {
     title: "Short-form Content",
@@ -55,16 +55,38 @@ const SERVICES = [
     tag: "Storytelling",
     desc: "Long-form narratives that move and linger, capturing the essence of places and people.",
     approach: "Find the story within the raw moments.",
-    video: "/gallery/Totally random..mp4",
+    video: "/service/Documentary.mp4",
   },
   {
     title: "Talking Head & Corporate",
     tag: "Corporate",
     desc: "Professional presence that actually holds attention, shot and cut to feel premium and trustworthy.",
     approach: "Clarity and pacing above all.",
-    video: "/gallery/If i can u can too..POST IT.mp4",
+    video: "/service/talking head.mp4",
   },
 ];
+
+// --- Mute icon helpers ---
+
+function IconMuted() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M11 5L6 9H2v6h4l5 4V5z" fill="white" />
+      <line x1="23" y1="9" x2="17" y2="15" stroke="white" strokeWidth="2" strokeLinecap="round" />
+      <line x1="17" y1="9" x2="23" y2="15" stroke="white" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function IconUnmuted() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M11 5L6 9H2v6h4l5 4V5z" fill="white" />
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="white" strokeWidth="2" strokeLinecap="round" />
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14" stroke="white" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
 
 // --- Single shared floating video ---
 // Only ONE video element in the DOM. src is swapped imperatively on demand.
@@ -73,10 +95,12 @@ interface FloatingVideoProps {
   src: string | null;
   visible: boolean;
   anchorY: number;
+  isMuted: boolean;
+  onToggleMute: (e: React.MouseEvent) => void;
 }
 
 const FloatingVideo = memo(function FloatingVideo({
-  src, visible, anchorY,
+  src, visible, anchorY, isMuted, onToggleMute,
 }: FloatingVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const prevSrc  = useRef<string | null>(null);
@@ -93,9 +117,15 @@ const FloatingVideo = memo(function FloatingVideo({
     v.play().catch(() => {});
   }, [visible, src]);
 
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = isMuted;
+  }, [isMuted]);
+
   return (
     <div
-      className="hidden lg:block absolute right-4 pointer-events-none z-20 w-60 rounded-sm shadow-xl"
+      className="hidden lg:block absolute right-4 z-20 w-60 rounded-sm shadow-xl"
       style={{
         top: anchorY,
         height: "20rem",
@@ -105,13 +135,42 @@ const FloatingVideo = memo(function FloatingVideo({
         transition: "opacity 0.35s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1)",
         willChange: "opacity, transform",
         overflow: "visible",
+        pointerEvents: visible ? "auto" : "none",
       }}
     >
       <video
         ref={videoRef}
         muted loop playsInline preload="none"
+        disablePictureInPicture
+        onContextMenu={(e) => e.preventDefault()}
         className="w-full h-full object-cover opacity-90 border border-black/10 p-2 bg-white"
       />
+      {/* Mute toggle */}
+      <button
+        onClick={onToggleMute}
+        aria-label={isMuted ? "Unmute video" : "Mute video"}
+        style={{
+          position: "absolute",
+          bottom: "12px",
+          right: "12px",
+          zIndex: 30,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "28px",
+          height: "28px",
+          borderRadius: "50%",
+          background: "rgba(0,0,0,0.65)",
+          border: "none",
+          cursor: "pointer",
+          backdropFilter: "blur(4px)",
+          transition: "background 0.2s ease",
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(0,0,0,0.85)")}
+        onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(0,0,0,0.65)")}
+      >
+        {isMuted ? <IconMuted /> : <IconUnmuted />}
+      </button>
     </div>
   );
 });
@@ -122,16 +181,27 @@ interface RowProps {
   s: (typeof SERVICES)[0];
   idx: number;
   isActive: boolean;
+  isClickActive: boolean;
   isClicked: boolean;
+  isMuted: boolean;
   rowRef: (el: HTMLDivElement | null) => void;
   onEnter: () => void;
   onLeave: () => void;
   onClick: () => void;
+  onToggleMute: (e: React.MouseEvent) => void;
 }
 
 const ServiceRow = memo(function ServiceRow({
-  s, idx, isActive, isClicked, rowRef, onEnter, onLeave, onClick,
+  s, idx, isActive, isClickActive, isClicked, isMuted, rowRef, onEnter, onLeave, onClick, onToggleMute,
 }: RowProps) {
+  const mobileVideoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const v = mobileVideoRef.current;
+    if (!v) return;
+    v.muted = isMuted;
+  }, [isMuted]);
+
   return (
     <div
       ref={rowRef}
@@ -168,7 +238,7 @@ const ServiceRow = memo(function ServiceRow({
         <div
           className="lg:hidden ml-auto flex items-center justify-center w-6 h-6 rounded-full bg-black/5 shrink-0"
           style={{
-            transform: isActive ? "rotate(180deg)" : "rotate(0deg)",
+            transform: isClickActive ? "rotate(180deg)" : "rotate(0deg)",
             transition: "transform 0.3s ease",
           }}
         >
@@ -182,20 +252,48 @@ const ServiceRow = memo(function ServiceRow({
       <div
         className="lg:hidden overflow-hidden"
         style={{
-          maxHeight: isActive ? "800px" : "0px",
-          opacity: isActive ? 1 : 0,
-          marginTop: isActive ? "24px" : "0px",
-          marginBottom: isActive ? "8px" : "0px",
+          maxHeight: isClickActive ? "800px" : "0px",
+          opacity: isClickActive ? 1 : 0,
+          marginTop: isClickActive ? "24px" : "0px",
+          marginBottom: isClickActive ? "8px" : "0px",
           transition: "max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease",
         }}
       >
-        <div className="w-full aspect-video mb-5 rounded-lg overflow-hidden bg-black/5 shadow-inner">
-          {isActive && (
-            <video
-              src={s.video}
-              autoPlay muted loop playsInline preload="metadata"
-              className="w-full h-full object-cover"
-            />
+        <div className="w-full aspect-video mb-5 rounded-lg overflow-hidden bg-black/5 shadow-inner relative">
+          {isClickActive && (
+            <>
+              <video
+                ref={mobileVideoRef}
+                src={s.video}
+                autoPlay muted loop playsInline preload="metadata"
+                disablePictureInPicture
+                onContextMenu={(e) => e.preventDefault()}
+                className="w-full h-full object-cover"
+              />
+              {/* Mobile mute button */}
+              <button
+                onClick={onToggleMute}
+                aria-label={isMuted ? "Unmute video" : "Mute video"}
+                style={{
+                  position: "absolute",
+                  bottom: "10px",
+                  right: "10px",
+                  zIndex: 30,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "32px",
+                  height: "32px",
+                  borderRadius: "50%",
+                  background: "rgba(0,0,0,0.65)",
+                  border: "none",
+                  cursor: "pointer",
+                  backdropFilter: "blur(4px)",
+                }}
+              >
+                {isMuted ? <IconMuted /> : <IconUnmuted />}
+              </button>
+            </>
           )}
         </div>
 
@@ -223,6 +321,7 @@ const ServiceRow = memo(function ServiceRow({
 export default function ServicesSection() {
   const [clickedService, setClickedService] = useState<number | null>(null);
   const [hoveredService, setHoveredService] = useState<number | null>(null);
+  const [isMuted, setIsMuted] = useState(true);
 
   const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -237,6 +336,11 @@ export default function ServicesSection() {
 
   const handleClick = useCallback((idx: number) => {
     setClickedService(prev => prev === idx ? null : idx);
+  }, []);
+
+  const handleToggleMute = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsMuted(prev => !prev);
   }, []);
 
   const activeIdx = hoveredService !== null ? hoveredService : clickedService;
@@ -281,6 +385,8 @@ export default function ServicesSection() {
             src={active?.video ?? null}
             visible={activeIdx !== null}
             anchorY={anchorY}
+            isMuted={isMuted}
+            onToggleMute={handleToggleMute}
           />
 
           {SERVICES.map((s, idx) => (
@@ -289,11 +395,14 @@ export default function ServicesSection() {
               s={s}
               idx={idx}
               isActive={idx === activeIdx}
+              isClickActive={idx === clickedService}
               isClicked={idx === clickedService}
+              isMuted={isMuted}
               rowRef={(el) => { rowRefs.current[idx] = el; }}
               onEnter={() => handleEnter(idx)}
               onLeave={handleLeave}
               onClick={() => handleClick(idx)}
+              onToggleMute={handleToggleMute}
             />
           ))}
         </div>

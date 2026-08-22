@@ -1,12 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import dynamic from "next/dynamic";
-import ScrollReveal from "@/components/ScrollReveal";
 import { useKonami } from "@/hooks/useKonami";
 import { Montserrat, Poppins, Playfair_Display } from "next/font/google";
-
-// Removed OceanWave import
 const FilmArchive = dynamic(() => import("@/components/FilmArchive"), { ssr: false });
 const TextLoop = dynamic(() => import("@/components/TextLoop"), { ssr: false });
 const ServicesSection = dynamic(() => import("@/components/ServicesSection"), { ssr: false });

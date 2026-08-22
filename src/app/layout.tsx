@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   description: "Creative professional specializing in cinematic video editing, color grading, and visual storytelling.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
